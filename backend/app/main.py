@@ -125,7 +125,10 @@ async def root():
 
 # API Routes
 from app.api.router import api_router
+from app.api import websocket as ws_router
+
 app.include_router(api_router, prefix=settings.API_V1_PREFIX)
+app.include_router(ws_router.router)
 
 
 if __name__ == "__main__":
