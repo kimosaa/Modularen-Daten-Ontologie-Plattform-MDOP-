@@ -1,0 +1,145 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mdop
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mdop-config
+  namespace: mdop
+data:
+  APP_NAME: "MDOP"
+  APP_VERSION: "0.1.0"
+  ENVIRONMENT: "production"
+  LOG_LEVEL: "INFO"
+  API_V1_PREFIX: "/api/v1"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mdop-secrets
+  namespace: mdop
+type: Opaque
+stringData:
+  SECRET_KEY: "your-secret-key-change-in-production"
+  NEO4J_PASSWORD: "mdop_neo4j_password"
+  POSTGRES_PASSWORD: "mdop_postgres_password"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mdop-backend
+  namespace: mdop
+  labels:
+    app: mdop-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mdop-backend
+  template:
+    metadata:
+      labels:
+        app: mdop-backend
+    spec:
+      containers:
+      - name: backend
+        image: mdop-backend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: APP_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: mdop-config
+              key: APP_NAME
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mdop-secrets
+              key: SECRET_KEY
+        - name: NEO4J_URI
+          value: "bolt://neo4j-service:7687"
+        - name: NEO4J_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mdop-secrets
+              key: NEO4J_PASSWORD
+        - name: POSTGRES_HOST
+          value: "postgres-service"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mdop-secrets
+              key: POSTGRES_PASSWORD
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: ELASTICSEARCH_HOST
+          value: "elasticsearch-service"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mdop-backend-service
+  namespace: mdop
+spec:
+  selector:
+    app: mdop-backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mdop-backend-hpa
+  namespace: mdop
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mdop-backend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
