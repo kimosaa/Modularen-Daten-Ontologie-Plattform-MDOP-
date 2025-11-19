@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDOP - Modular Data Ontology Platform | Enterprise Graph Analytics</title>
+    <meta name="description" content="MDOP ist eine Palantir-inspirierte Datenplattform für Graph-basierte Integration und Analyse. 90% günstiger als Enterprise-Alternativen.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #3B82F6;
+            --secondary: #10B981;
+            --dark: #1F2937;
+            --light: #F9FAFB;
+            --gray: #6B7280;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .hero h1 span {
+            color: var(--primary);
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .hero-image {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        /* Stats */
+        .stats {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 42px;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .stat-item p {
+            color: #9CA3AF;
+        }
+        
+        /* Features */
+        .features {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .feature-card {
+            padding: 30px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+        
+        /* Use Cases */
+        .use-cases {
+            padding: 100px 0;
+            background: var(--light);
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .use-case-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .use-case-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .use-case-card ul {
+            color: var(--gray);
+            padding-left: 20px;
+        }
+        
+        .use-case-card li {
+            margin-bottom: 8px;
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 100px 0;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured::before {
+            content: 'Beliebt';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .pricing-card .price {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+        
+        .pricing-card .price span {
+            font-size: 16px;
+            color: var(--gray);
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .pricing-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid #E5E7EB;
+            color: var(--gray);
+        }
+        
+        .pricing-card li::before {
+            content: '✓';
+            color: var(--secondary);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        /* Comparison */
+        .comparison {
+            padding: 100px 0;
+            background: var(--dark);
+            color: white;
+        }
+        
+        .comparison h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            color: var(--dark);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .comparison-table th {
+            background: var(--light);
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .check {
+            color: var(--secondary);
+            font-size: 20px;
+        }
+        
+        .cross {
+            color: #EF4444;
+            font-size: 20px;
+        }
+        
+        /* CTA */
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, #2563EB 100%);
+            color: white;
+        }
+        
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .cta .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border-color: white;
+        }
+        
+        .cta .btn-secondary:hover {
+            background: transparent;
+            color: white;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-brand p {
+            color: #9CA3AF;
+            margin-top: 15px;
+        }
+        
+        .footer-links h4 {
+            margin-bottom: 20px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links a {
+            color: #9CA3AF;
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #374151;
+            color: #9CA3AF;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content,
+            .features-grid,
+            .use-cases-grid,
+            .pricing-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">MDOP</div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#comparison">Vergleich</a></li>
+                </ul>
+                <a href="#demo" class="btn btn-primary">Demo anfragen</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>Enterprise Graph Analytics <span>90% günstiger</span></h1>
+                    <p>MDOP ist die Palantir-inspirierte Datenplattform, die komplexe Beziehungen visualisiert und analysiert. Self-hosted, skalierbar, und für jeden Geldbeutel.</p>
+                    <div class="hero-buttons">
+                        <a href="#demo" class="btn btn-primary">Kostenlose Demo</a>
+                        <a href="#pricing" class="btn btn-secondary">Preise ansehen</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <svg viewBox="0 0 400 300" style="width:100%">
+                        <circle cx="200" cy="150" r="30" fill="#3B82F6"/>
+                        <circle cx="100" cy="80" r="25" fill="#10B981"/>
+                        <circle cx="300" cy="80" r="25" fill="#F59E0B"/>
+                        <circle cx="100" cy="220" r="25" fill="#8B5CF6"/>
+                        <circle cx="300" cy="220" r="25" fill="#EC4899"/>
+                        <line x1="200" y1="150" x2="100" y2="80" stroke="#E5E7EB" stroke-width="2"/>
+                        <line x1="200" y1="150" x2="300" y2="80" stroke="#E5E7EB" stroke-width="2"/>
+                        <line x1="200" y1="150" x2="100" y2="220" stroke="#E5E7EB" stroke-width="2"/>
+                        <line x1="200" y1="150" x2="300" y2="220" stroke="#E5E7EB" stroke-width="2"/>
+                        <line x1="100" y1="80" x2="300" y2="220" stroke="#E5E7EB" stroke-width="2"/>
+                        <text x="200" y="155" text-anchor="middle" fill="white" font-size="12">Core</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>90%</h3>
+                    <p>Kostenersparnis vs. Palantir</p>
+                </div>
+                <div class="stat-item">
+                    <h3>&lt;2s</h3>
+                    <p>Query Response Time</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1M+</h3>
+                    <p>Entitäten skalierbar</p>
+                </div>
+                <div class="stat-item">
+                    <h3>15min</h3>
+                    <p>Setup Zeit</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Alles was Sie brauchen</h2>
+                <p>Eine Plattform für alle Ihre Datenintegrations- und Analysebedürfnisse</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Graph-Visualisierung</h3>
+                    <p>Interaktive D3.js Visualisierung mit Zoom, Pan und Drag-and-Drop. Sehen Sie Beziehungen sofort.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3>Universal Connectors</h3>
+                    <p>Verbinden Sie PostgreSQL, MongoDB, REST APIs, CSV, Kafka und mehr mit einer Plugin-Architektur.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-Time Updates</h3>
+                    <p>WebSocket-basierte Live-Updates. Mehrere Benutzer arbeiten gleichzeitig mit sofortiger Synchronisation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Enterprise Security</h3>
+                    <p>ABAC, End-to-End Verschlüsselung, Audit Logging. GDPR und CCPA compliant.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Skalierbarkeit</h3>
+                    <p>Kubernetes-ready mit Auto-Scaling. Designed für 1M+ Entitäten und 100+ gleichzeitige Benutzer.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🐳</div>
+                    <h3>Einfaches Deployment</h3>
+                    <p>Docker Compose für Development, Kubernetes für Production. In 15 Minuten einsatzbereit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases" id="use-cases">
+        <div class="container">
+            <div class="section-title">
+                <h2>Branchenlösungen</h2>
+                <p>MDOP passt sich Ihren spezifischen Anforderungen an</p>
+            </div>
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <h3>Financial Services</h3>
+                    <ul>
+                        <li>Fraud Detection & Prevention</li>
+                        <li>AML/KYC Compliance</li>
+                        <li>Risk Assessment</li>
+                        <li>Transaction Pattern Analysis</li>
+                    </ul>
+                </div>
+                <div class="use-case-card">
+                    <h3>Healthcare</h3>
+                    <ul>
+                        <li>Patient Journey Mapping</li>
+                        <li>Treatment Outcomes Analysis</li>
+                        <li>Provider Network Optimization</li>
+                        <li>Clinical Trial Analysis</li>
+                    </ul>
+                </div>
+                <div class="use-case-card">
+                    <h3>Supply Chain</h3>
+                    <ul>
+                        <li>End-to-End Visibility</li>
+                        <li>Risk Identification</li>
+                        <li>Supplier Management</li>
+                        <li>Logistics Optimization</li>
+                    </ul>
+                </div>
+                <div class="use-case-card">
+                    <h3>Cybersecurity</h3>
+                    <ul>
+                        <li>Threat Intelligence</li>
+                        <li>Incident Response</li>
+                        <li>Network Mapping</li>
+                        <li>Vulnerability Analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Transparente Preise</h2>
+                <p>Keine versteckten Kosten. Alle Features inklusive.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">€4.999<span>/Jahr</span></div>
+                    <ul>
+                        <li>100.000 Entitäten</li>
+                        <li>10 gleichzeitige Benutzer</li>
+                        <li>Community Support</li>
+                        <li>Basis-Connectors</li>
+                        <li>Docker Deployment</li>
+                    </ul>
+                    <a href="#demo" class="btn btn-secondary" style="width:100%">Demo anfragen</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>Professional</h3>
+                    <div class="price">€19.999<span>/Jahr</span></div>
+                    <ul>
+                        <li>1.000.000 Entitäten</li>
+                        <li>50 gleichzeitige Benutzer</li>
+                        <li>Email Support (24h)</li>
+                        <li>Alle Standard-Connectors</li>
+                        <li>Data Lineage Tracking</li>
+                    </ul>
+                    <a href="#demo" class="btn btn-primary" style="width:100%">Demo anfragen</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">€49.999<span>/Jahr</span></div>
+                    <ul>
+                        <li>Unbegrenzte Entitäten</li>
+                        <li>Unbegrenzte Benutzer</li>
+                        <li>Premium Support (4h)</li>
+                        <li>Custom Connectors</li>
+                        <li>Dedicated Account Manager</li>
+                    </ul>
+                    <a href="#demo" class="btn btn-secondary" style="width:100%">Kontakt</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="comparison" id="comparison">
+        <div class="container">
+            <h2>Wie MDOP sich unterscheidet</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Feature</th>
+                    <th>MDOP</th>
+                    <th>Palantir</th>
+                    <th>Neo4j</th>
+                </tr>
+                <tr>
+                    <td>Preis/Jahr</td>
+                    <td><strong>€4.999 - €49.999</strong></td>
+                    <td>€500.000+</td>
+                    <td>€150.000+</td>
+                </tr>
+                <tr>
+                    <td>Graph Visualization</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+                <tr>
+                    <td>Real-Time Updates</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="cross">✗</span></td>
+                </tr>
+                <tr>
+                    <td>Self-Hosted</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="cross">✗</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+                <tr>
+                    <td>Universal Connectors</td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                    <td><span class="cross">✗</span></td>
+                </tr>
+                <tr>
+                    <td>Setup Zeit</td>
+                    <td><strong>15 Minuten</strong></td>
+                    <td>Wochen</td>
+                    <td>Stunden</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="demo">
+        <div class="container">
+            <h2>Bereit loszulegen?</h2>
+            <p>Fordern Sie eine kostenlose Demo an und sehen Sie, wie MDOP Ihre Datenanalyse revolutionieren kann.</p>
+            <a href="mailto:demo@mdop-platform.com" class="btn btn-secondary">Demo anfragen</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">MDOP</div>
+                    <p>Enterprise-Grade Graph Analytics Platform. Affordable, scalable, self-hosted.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">Dokumentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Unternehmen</h4>
+                    <ul>
+                        <li><a href="#">Über uns</a></li>
+                        <li><a href="#">Karriere</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Kontakt</h4>
+                    <ul>
+                        <li><a href="mailto:sales@mdop-platform.com">sales@mdop-platform.com</a></li>
+                        <li><a href="mailto:support@mdop-platform.com">support@mdop-platform.com</a></li>
+                        <li><a href="mailto:demo@mdop-platform.com">demo@mdop-platform.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MDOP Platform. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
